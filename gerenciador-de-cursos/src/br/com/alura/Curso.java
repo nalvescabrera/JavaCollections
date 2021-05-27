@@ -1,10 +1,12 @@
 package br.com.alura;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.TreeSet;
@@ -16,6 +18,8 @@ public class Curso {
 	// LinkedList mais rápida em questão de adicionar um novo elemento
 	// Mas é lenta para acessar determinado elemento
 	private List<Aula> aulas = new LinkedList<Aula>();
+	// Bastante rapido e bom para perfomance
+	private Map<Integer,Aluno> matriculaParaAluno = new HashMap<>();
 	
 	//Só funciona com classes compareble
 	//private Set<Aluno> alunos = new TreeSet<>();
@@ -64,6 +68,7 @@ public class Curso {
 
 	public void matricula(Aluno aluno) {
 		this.alunos.add(aluno);
+		this.matriculaParaAluno.put(aluno.getNumeroMatricula(), aluno);
 	}
 
 	public boolean estaMatriculado(Aluno aluno) {
@@ -71,11 +76,9 @@ public class Curso {
 	}
 
 	public Aluno buscaMatriculado(int numero) {
-		for (Aluno aluno : alunos) {
-			if(aluno.getNumeroMatricula()== numero)
-				return aluno;
-		}
-		throw new NoSuchElementException("matricula não encontrada " + numero);
+		if(!matriculaParaAluno.containsKey(numero))
+			throw new NoSuchElementException();
+		return matriculaParaAluno.get(numero);
 	}
 
 }
